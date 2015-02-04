@@ -5,4 +5,8 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="TextView" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
 </resources>
