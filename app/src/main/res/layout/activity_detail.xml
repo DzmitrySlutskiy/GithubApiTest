@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/user_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:padding="@dimen/abc_action_bar_default_padding_material"
+        android:layout_toRightOf="@id/user_icon"
+        android:id="@+id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextView.MediumSize"
+        tools:text="Ivan Ivanov" />
+
+    <TextView
+        android:layout_below="@id/user_name"
+        android:padding="@dimen/abc_action_bar_default_padding_material"
+        android:layout_toRightOf="@id/user_icon"
+        android:id="@+id/full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextView.MediumSize"
+        tools:text="Ivan Ivanov" />
+
+    <TextView
+        android:layout_below="@id/user_icon"
+        android:padding="@dimen/abc_action_bar_default_padding_material"
+        android:id="@+id/aux_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextView.MediumSize"
+        android:text="Description:" />
+
+    <TextView
+        android:layout_below="@id/aux_description"
+        android:padding="@dimen/abc_action_bar_default_padding_material"
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextView.MediumSize"
+        tools:text="Ivan Ivanov" />
+
+    <ListView
+        android:layout_below="@id/description"
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

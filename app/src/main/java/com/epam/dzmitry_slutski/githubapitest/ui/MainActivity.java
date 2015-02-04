@@ -1,4 +1,4 @@
-package com.epam.dzmitry_slutski.githubapitest;
+package com.epam.dzmitry_slutski.githubapitest.ui;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -9,9 +9,11 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.epam.dzmitry_slutski.githubapitest.R;
 import com.epam.dzmitry_slutski.githubapitest.adapter.RepositoriesAdapter;
 import com.epam.dzmitry_slutski.githubapitest.model.GitHubRepository;
 import com.epam.dzmitry_slutski.githubapitest.model.Repository;
@@ -26,7 +28,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
     public static final String TAG = MainActivity.class.getSimpleName();
     private SpiceManager mSpiceManager = new GitHubSpiceManager(GitHubService.class);
     private ListView mList;
@@ -62,7 +64,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
         mList = (ListView) findViewById(android.R.id.list);
         mList.setAdapter(new RepositoriesAdapter(this));
-
+        mList.setOnItemClickListener(this);
         mRequest = new RepositoryRequest("");
 
         // Get the intent, verify the action and get the query
@@ -129,6 +131,17 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String s) {
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        RepositoriesAdapter adapter = (RepositoriesAdapter) mList.getAdapter();
+        Repository item = (Repository) adapter.getItem(position);
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(DetailActivity.ARG_REPOSITORY, item);
+
+        startActivity(intent);
     }
 
     public final class RepositoryRequestListener implements RequestListener<GitHubRepository> {

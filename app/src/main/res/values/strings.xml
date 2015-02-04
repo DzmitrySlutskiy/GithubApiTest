@@ -6,4 +6,8 @@
     <string name="search_hint">Search</string>
     <string name="action_search">search</string>
     <string name="no_data">Empty search result</string>
+
+    <string name="user_name_format">User: %s</string>
+    <string name="repository_format">Repository: %s</string>
+    <string name="email_format">e-mail: %s</string>
 </resources>

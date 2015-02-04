@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/user_icon"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:paddingLeft="6dp"
+        android:layout_toRightOf="@id/user_icon"
+        android:id="@+id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:gravity="center_vertical"
+        style="@style/TextView"
+        tools:text="User name" />
+
+    <TextView
+        android:paddingLeft="6dp"
+        android:layout_below="@id/user_name"
+        android:layout_toRightOf="@id/user_icon"
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:gravity="center_vertical"
+        style="@style/TextView.SmallSize"
+        tools:text="email@email.com" />
+
+    <TextView
+        android:paddingLeft="6dp"
+        android:layout_below="@id/email"
+        android:layout_toRightOf="@id/user_icon"
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:gravity="center_vertical"
+        style="@style/TextView.SmallSize"
+        tools:text="Date" />
+
+    <TextView
+        android:paddingLeft="6dp"
+        android:layout_below="@id/user_icon"
+        android:id="@+id/aux_message"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:gravity="center_vertical"
+        style="@style/TextView.SmallSize"
+        android:text="Commit message:" />
+
+    <TextView
+        android:paddingLeft="6dp"
+        android:layout_below="@id/aux_message"
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        style="@style/TextView.SmallSize"
+        tools:text="Commit message!" />
+</RelativeLayout>
