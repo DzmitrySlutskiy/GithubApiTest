@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
@@ -17,30 +16,21 @@ import com.epam.dzmitry_slutski.githubapitest.R;
 import com.epam.dzmitry_slutski.githubapitest.adapter.RepositoriesAdapter;
 import com.epam.dzmitry_slutski.githubapitest.model.GitHubRepository;
 import com.epam.dzmitry_slutski.githubapitest.model.Repository;
-import com.epam.dzmitry_slutski.githubapitest.network.GitHubService;
-import com.epam.dzmitry_slutski.githubapitest.network.GitHubSpiceManager;
 import com.epam.dzmitry_slutski.githubapitest.network.RepositoryRequest;
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
+public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
     public static final String TAG = MainActivity.class.getSimpleName();
-    private SpiceManager mSpiceManager = new GitHubSpiceManager(GitHubService.class);
+
     private ListView mList;
-    private View mEmtyData;
+    private View mEmptyData;
 
     private RepositoryRequest mRequest;
-
-    @Override
-    protected void onStop() {
-        mSpiceManager.shouldStop();
-        super.onStop();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,7 +50,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mEmtyData = findViewById(R.id.empty_data);
+        mEmptyData = findViewById(R.id.empty_data);
 
         mList = (ListView) findViewById(android.R.id.list);
         mList.setAdapter(new RepositoriesAdapter(this));
@@ -77,19 +67,13 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     }
 
     private void showEmpty(boolean isEmptyData) {
-        mEmtyData.setVisibility(isEmptyData ? View.VISIBLE : View.GONE);
+        mEmptyData.setVisibility(isEmptyData ? View.VISIBLE : View.GONE);
         mList.setVisibility(!isEmptyData ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    protected void onStart() {
-        mSpiceManager.start(this);
-        super.onStart();
     }
 
     private void doSearch(String searchKey) {
         mRequest.changeSearchKey(searchKey);
-        mSpiceManager.execute(mRequest, "github_cache_key", DurationInMillis.ONE_SECOND, new RepositoryRequestListener());
+        executeRequest();
     }
 
     private void updateRepositories(final GitHubRepository repositories) {
@@ -142,6 +126,16 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         intent.putExtra(DetailActivity.ARG_REPOSITORY, item);
 
         startActivity(intent);
+    }
+
+    @Override
+    protected SpiceRequest getRequest() {
+        return mRequest;
+    }
+
+    @Override
+    protected RequestListener getListener() {
+        return new RepositoryRequestListener();
     }
 
     public final class RepositoryRequestListener implements RequestListener<GitHubRepository> {

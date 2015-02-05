@@ -2,7 +2,6 @@ package com.epam.dzmitry_slutski.githubapitest.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,11 +13,8 @@ import com.epam.dzmitry_slutski.githubapitest.model.Commit;
 import com.epam.dzmitry_slutski.githubapitest.model.Owner;
 import com.epam.dzmitry_slutski.githubapitest.model.Repository;
 import com.epam.dzmitry_slutski.githubapitest.network.CommitRequest;
-import com.epam.dzmitry_slutski.githubapitest.network.GitHubService;
-import com.epam.dzmitry_slutski.githubapitest.network.GitHubSpiceManager;
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.squareup.picasso.Picasso;
 
@@ -28,9 +24,9 @@ import com.squareup.picasso.Picasso;
  * 04.02.2015
  * Created by Dzmitry_Slutski.
  */
-public class DetailActivity extends ActionBarActivity {
+public class DetailActivity extends BaseActivity {
     public static final String ARG_REPOSITORY = "DetailActivity.Repository";
-    private SpiceManager mSpiceManager = new GitHubSpiceManager(GitHubService.class);
+
     private CommitRequest mRequest = null;
     private ListView mList;
 
@@ -66,10 +62,19 @@ public class DetailActivity extends ActionBarActivity {
     }
 
     @Override
+    protected SpiceRequest getRequest() {
+        return mRequest;
+    }
+
+    @Override
+    protected RequestListener getListener() {
+        return new CommitRequestListener();
+    }
+
+    @Override
     protected void onStart() {
-        mSpiceManager.start(this);
         super.onStart();
-        mSpiceManager.execute(mRequest, "github_cache_key", DurationInMillis.ONE_SECOND, new CommitRequestListener());
+        executeRequest();
     }
 
     public final class CommitRequestListener implements RequestListener<Commit[]> {
