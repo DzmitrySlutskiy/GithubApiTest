@@ -1,6 +1,7 @@
 package com.epam.dzmitry_slutski.githubapitest.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.epam.dzmitry_slutski.githubapitest.R;
-import com.epam.dzmitry_slutski.githubapitest.model.Owner;
-import com.epam.dzmitry_slutski.githubapitest.model.Repository;
+import com.epam.dzmitry_slutski.githubapitest.model.GitHubOwner;
+import com.epam.dzmitry_slutski.githubapitest.model.GitHubRepository;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
  */
 public class RepositoriesAdapter extends BaseAdapter {
 
-    private List<Repository> mRepositories;
+    private List<GitHubRepository> mRepositories;
     private Context mContext;
     private LayoutInflater mInflater;
     private String mUserNameFString;
@@ -63,18 +64,20 @@ public class RepositoriesAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Repository repository = mRepositories.get(position);
+        GitHubRepository gitHubRepository = mRepositories.get(position);
 
-        holder.mRepoName.setText(String.format(mUserNameFString, repository.getFullName()));
-        Owner owner = repository.getOwner();
+        holder.mRepoName.setText(String.format(mUserNameFString, gitHubRepository.getFullName()));
+        GitHubOwner owner = gitHubRepository.getOwner();
         if (owner != null) {
             holder.mUserName.setText(String.format(mRepNameFString, owner.getLogin()));
-            Picasso.with(mContext).load(owner.getAvatarUrl()).into(holder.mIcon);
+            Picasso.with(mContext).load(owner.getAvatarUrl()).placeholder(R.mipmap.ic_launcher).into(holder.mIcon);
+        }else{
+            Log.d("RepositoriesAdapter","RepositoriesAdapter.getView: owner == null");
         }
         return convertView;
     }
 
-    public void changeRepositories(List<Repository> reps) {
+    public void changeRepositories(List<GitHubRepository> reps) {
         mRepositories.clear();
         if (reps != null && reps.size() > 0) {
             mRepositories.addAll(reps);

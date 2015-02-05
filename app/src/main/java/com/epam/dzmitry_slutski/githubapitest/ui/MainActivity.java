@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import com.epam.dzmitry_slutski.githubapitest.R;
 import com.epam.dzmitry_slutski.githubapitest.adapter.RepositoriesAdapter;
+import com.epam.dzmitry_slutski.githubapitest.model.GitHubRepositories;
 import com.epam.dzmitry_slutski.githubapitest.model.GitHubRepository;
-import com.epam.dzmitry_slutski.githubapitest.model.Repository;
-import com.epam.dzmitry_slutski.githubapitest.network.RepositoryRequest;
+import com.epam.dzmitry_slutski.githubapitest.network.request.RepositoryRequest;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -76,9 +76,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         executeRequest();
     }
 
-    private void updateRepositories(final GitHubRepository repositories) {
+    private void updateRepositories(final GitHubRepositories repositories) {
         if (repositories != null) {
-            List<Repository> items = repositories.getItems();
+            List<GitHubRepository> items = repositories.getItems();
             if (items != null && items.size() > 0) {
                 Log.d(TAG, "updateRepositories: " + items.size());
                 RepositoriesAdapter adapter = (RepositoriesAdapter) mList.getAdapter();
@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         RepositoriesAdapter adapter = (RepositoriesAdapter) mList.getAdapter();
-        Repository item = (Repository) adapter.getItem(position);
+        GitHubRepository item = (GitHubRepository) adapter.getItem(position);
 
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(DetailActivity.ARG_REPOSITORY, item);
@@ -138,7 +138,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         return new RepositoryRequestListener();
     }
 
-    public final class RepositoryRequestListener implements RequestListener<GitHubRepository> {
+    public final class RepositoryRequestListener implements RequestListener<GitHubRepositories> {
 
         @Override
         public void onRequestFailure(SpiceException spiceException) {
@@ -147,7 +147,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
 
         @Override
-        public void onRequestSuccess(final GitHubRepository repositories) {
+        public void onRequestSuccess(final GitHubRepositories repositories) {
             Log.d(TAG, "onRequestSuccess: " + repositories);
             updateRepositories(repositories);
         }

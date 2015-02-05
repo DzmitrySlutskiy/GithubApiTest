@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by Dzmitry_Slutski.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Committer {
+public class GitHubCommitter {
     @JsonProperty("name")
     private String mName;
 

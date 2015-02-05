@@ -2,6 +2,7 @@ package com.epam.dzmitry_slutski.githubapitest.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.epam.dzmitry_slutski.githubapitest.R;
-import com.epam.dzmitry_slutski.githubapitest.model.Commit;
-import com.epam.dzmitry_slutski.githubapitest.model.Committer;
+import com.epam.dzmitry_slutski.githubapitest.model.GitHubCommit;
+import com.epam.dzmitry_slutski.githubapitest.model.GitHubCommitter;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -22,7 +23,7 @@ import com.squareup.picasso.Picasso;
  */
 public class CommitAdapter extends BaseAdapter {
 
-    private Commit[] mCommits;
+    private GitHubCommit[] mCommits;
     private Context mContext;
     private LayoutInflater mInflater;
     private String mUserNameFString;
@@ -60,14 +61,15 @@ public class CommitAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Commit commit = mCommits[position];
-        Committer author = commit.getAuthor();
+        GitHubCommit commit = mCommits[position];
+        GitHubCommitter author = commit.getAuthor();
 
         String icon = commit.getIcon();
         if (TextUtils.isEmpty(icon)) {
             holder.mIcon.setImageDrawable(null);
+            Log.d("CommitAdapter", "CommitAdapter.getView: user icon is empty");
         } else {
-            Picasso.with(mContext).load(icon).into(holder.mIcon);
+            Picasso.with(mContext).load(icon).placeholder(R.mipmap.ic_launcher).into(holder.mIcon);
         }
         holder.mUserName.setText(String.format(mUserNameFString, author.getName()));
         holder.mEmail.setText(String.format(mEmailFString, author.getMail()));
@@ -77,7 +79,7 @@ public class CommitAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void changeCommits(Commit[] reps) {
+    public void changeCommits(GitHubCommit[] reps) {
         mCommits = reps;
         notifyDataSetChanged();
     }

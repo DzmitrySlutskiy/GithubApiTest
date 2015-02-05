@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by Dzmitry_Slutski.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Owner implements Parcelable {
+public class GitHubOwner implements Parcelable {
     @JsonProperty("id")
     private int mId;
 
@@ -23,7 +23,7 @@ public class Owner implements Parcelable {
     @JsonProperty("avatar_url")
     private String mAvatarUrl;
 
-    public Owner(){}
+    public GitHubOwner(){}
 
     public int getId() {
         return mId;
@@ -42,7 +42,7 @@ public class Owner implements Parcelable {
         return 0;
     }
 
-    public Owner(Parcel parcel) {
+    public GitHubOwner(Parcel parcel) {
         mId = parcel.readInt();
         mLogin = parcel.readString();
         mAvatarUrl = parcel.readString();
@@ -56,15 +56,15 @@ public class Owner implements Parcelable {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final Creator<Owner> CREATOR = new Creator<Owner>() {
+    public static final Creator<GitHubOwner> CREATOR = new Creator<GitHubOwner>() {
         @Override
-        public Owner createFromParcel(Parcel parcel) {
-            return new Owner(parcel);
+        public GitHubOwner createFromParcel(Parcel parcel) {
+            return new GitHubOwner(parcel);
         }
 
         @Override
-        public Owner[] newArray(int i) {
-            return new Owner[i];
+        public GitHubOwner[] newArray(int i) {
+            return new GitHubOwner[i];
         }
     };
 }

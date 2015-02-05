@@ -12,17 +12,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by Dzmitry_Slutski.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Commit {
+public class GitHubCommit {
     @JsonProperty("sha")
     private String mSha;
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public class CommitInfo {
         @JsonProperty("author")
-        private Committer mAuthor;
+        private GitHubCommitter mAuthor;
 
         @JsonProperty("committer")
-        private Committer mCommitter;
+        private GitHubCommitter mCommitter;
 
         @JsonProperty("message")
         private String mMessage;
@@ -47,11 +47,11 @@ public class Commit {
         return mSha;
     }
 
-    public Committer getAuthor() {
+    public GitHubCommitter getAuthor() {
         return mCommit != null ? mCommit.mAuthor : null;
     }
 
-    public Committer getCommitter() {
+    public GitHubCommitter getCommitter() {
         return mCommit != null ? mCommit.mCommitter : null;
     }
 

@@ -9,10 +9,10 @@ import android.widget.Toast;
 
 import com.epam.dzmitry_slutski.githubapitest.R;
 import com.epam.dzmitry_slutski.githubapitest.adapter.CommitAdapter;
-import com.epam.dzmitry_slutski.githubapitest.model.Commit;
-import com.epam.dzmitry_slutski.githubapitest.model.Owner;
-import com.epam.dzmitry_slutski.githubapitest.model.Repository;
-import com.epam.dzmitry_slutski.githubapitest.network.CommitRequest;
+import com.epam.dzmitry_slutski.githubapitest.model.GitHubCommit;
+import com.epam.dzmitry_slutski.githubapitest.model.GitHubOwner;
+import com.epam.dzmitry_slutski.githubapitest.model.GitHubRepository;
+import com.epam.dzmitry_slutski.githubapitest.network.request.CommitRequest;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -41,23 +41,23 @@ public class DetailActivity extends BaseActivity {
 
         Bundle params = intent.getExtras();
         if (params != null) {
-            Repository repository = params.getParcelable(ARG_REPOSITORY);
-            Owner owner = repository.getOwner();
+            GitHubRepository gitHubRepository = params.getParcelable(ARG_REPOSITORY);
+            GitHubOwner owner = gitHubRepository.getOwner();
 
             TextView userName = (TextView) findViewById(R.id.user_name);
             String userNameFormatted = String.format(getString(R.string.user_name_format), owner.getLogin());
             userName.setText(userNameFormatted);
 
             TextView fullName = (TextView) findViewById(R.id.full_name);
-            String fullNameFormatted = String.format(getString(R.string.repository_format), repository.getName());
+            String fullNameFormatted = String.format(getString(R.string.repository_format), gitHubRepository.getName());
             fullName.setText(fullNameFormatted);
 
             TextView description = (TextView) findViewById(R.id.description);
-            description.setText(repository.getDescription());
+            description.setText(gitHubRepository.getDescription());
 
-            Picasso.with(this).load(owner.getAvatarUrl()).into((android.widget.ImageView) findViewById(R.id.user_icon));
+            Picasso.with(this).load(owner.getAvatarUrl()).placeholder(R.mipmap.ic_launcher).into((android.widget.ImageView) findViewById(R.id.user_icon));
 
-            mRequest = new CommitRequest(owner.getLogin(), repository.getName());
+            mRequest = new CommitRequest(owner.getLogin(), gitHubRepository.getName());
         }
     }
 
@@ -77,7 +77,7 @@ public class DetailActivity extends BaseActivity {
         executeRequest();
     }
 
-    public final class CommitRequestListener implements RequestListener<Commit[]> {
+    public final class CommitRequestListener implements RequestListener<GitHubCommit[]> {
 
         @Override
         public void onRequestFailure(SpiceException spiceException) {
@@ -85,7 +85,7 @@ public class DetailActivity extends BaseActivity {
         }
 
         @Override
-        public void onRequestSuccess(final Commit[] commits) {
+        public void onRequestSuccess(final GitHubCommit[] commits) {
             Log.d("CommitRequestListener", "onRequestSuccess: " + commits);
 
             CommitAdapter adapter = (CommitAdapter) mList.getAdapter();
