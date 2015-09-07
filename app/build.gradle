@@ -1,20 +1,35 @@
 apply plugin: 'com.android.application'
+apply plugin: 'idea'
+apply plugin: 'hockeyApp'
 
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.epam.dzmitry_slutski.githubapitest"
+        applicationId "com.epam.githubapitest"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 1
+        versionCode new Date().time.toString()[0..9].toInteger()
         versionName "1.0"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt', 'proguard-rules-debug.txt'
+            versionNameSuffix "." + new Date().format('yyyyMMddHHmmss')
+        }
+    }
+    productFlavors {
+        prod {
+        }
+
+        dev {
         }
     }
     packagingOptions {
@@ -25,14 +40,24 @@ android {
     }
 }
 
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile('com.octo.android.robospice:robospice:1.4.14')
-    compile('com.octo.android.robospice:robospice-cache:1.4.14')
-    compile('com.octo.android.robospice:robospice-okhttp:1.4.14')
-    compile('com.octo.android.robospice:robospice-retrofit:1.4.14')
-    compile('com.squareup.retrofit:converter-jackson:1.7.1')
+    compile 'com.octo.android.robospice:robospice:1.4.14'
+    compile 'com.octo.android.robospice:robospice-cache:1.4.14'
+    compile 'com.octo.android.robospice:robospice-okhttp:1.4.14'
+    compile 'com.octo.android.robospice:robospice-retrofit:1.4.14'
+    compile 'com.squareup.retrofit:converter-jackson:1.7.1'
     compile 'com.squareup.picasso:picasso:2.2.0'
-    compile('com.octo.android.robospice:robospice-ormlite:1.4.14')
+    compile 'uk.co.chrisjenx.calligraphy:calligraphy:0.6.0'
+    //if used ORMLite as cache
+    compile 'com.octo.android.robospice:robospice-ormlite:1.4.14'
+    compile files('libs/HockeySDK-3.5.0.jar')
 }

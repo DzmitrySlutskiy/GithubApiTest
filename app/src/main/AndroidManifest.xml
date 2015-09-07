@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.epam.dzmitry_slutski.githubapitest">
+    package="com.epam.githubapitest">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,9 +9,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".ApplicationImpl"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance">
             <intent-filter>
@@ -26,12 +27,12 @@
         </activity>
 
         <activity
-            android:name=".ui.DetailActivity"
+            android:name=".ui.activity.DetailActivity"
             android:label="@string/app_name"
-            android:parentActivityName=".ui.MainActivity">
+            android:parentActivityName=".ui.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
 
         <service
